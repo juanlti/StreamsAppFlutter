@@ -23,24 +23,21 @@ class _LoadingPageState extends State<LoadingPage> {
     final _user = TextEditingController();
     final _numberPhone = TextEditingController();
 
-    return Center(
-      child: Container(
-          child: SingleChildScrollView(
-        child: Form(
-          //README ALL DATA FOR TO CHANGE
-          key: formLogin,
+    return SingleChildScrollView(
+      child: Form(
+        //README ALL DATA FOR TO CHANGE
+        key: formLogin,
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Logo(200),
-              const Padding(padding: EdgeInsets.only(bottom: 5)),
-              InputField(
-                  widthInpuField, _email, _password, _user, _numberPhone),
-              Padding(
-                padding: EdgeInsets.only(
-                  right: 60,
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Padding(padding: EdgeInsets.only(bottom: 5)),
+            InputField(widthInpuField, _email, _password, _user, _numberPhone),
+            Padding(
+              padding: EdgeInsets.only(
+                right: 60,
+              ),
+              child: Expanded(
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
@@ -56,46 +53,45 @@ class _LoadingPageState extends State<LoadingPage> {
                       ),
                     ]),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 35),
-                child: buttomUi(
-                    typeLabel: 'Crear Cuenta',
-                    onPressed: () async {
-                      if (formLogin.currentState?.validate() == true) {
-                        //valores ya verificados, deben ser correctos !
-                        email:
-                        _email.toString();
-                        password:
-                        _password.toString();
-                        user:
-                        _user.toString();
-                        phone:
-                        _numberPhone.toString();
-                      }
-                    }),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 35),
+              child: buttomUi(
+                  typeLabel: 'Crear Cuenta',
+                  onPressed: () async {
+                    if (formLogin.currentState?.validate() == true) {
+                      //valores ya verificados, deben ser correctos !
+                      email:
+                      _email.toString();
+                      password:
+                      _password.toString();
+                      user:
+                      _user.toString();
+                      phone:
+                      _numberPhone.toString();
+                    }
+                  }),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              child: Text(
+                'o registrar con',
+                style: textStyle(),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 15),
-                child: Text(
-                  'o registrar con',
-                  style: textStyle(),
-                ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(onPressed: () {}, icon: customIcons(IconGoogle)),
+                  IconButton(onPressed: () {}, icon: customIcons(IconFacebook)),
+                ],
               ),
-              Container(
-                margin: EdgeInsets.only(top: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(onPressed: () {}, icon: customIcons(IconGoogle)),
-                    IconButton(
-                        onPressed: () {}, icon: customIcons(IconFacebook)),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      )),
+      ),
     );
   }
 
@@ -106,8 +102,8 @@ class _LoadingPageState extends State<LoadingPage> {
       TextEditingController _userController,
       TextEditingController _numberPhoneController) {
     return Container(
-      decoration: const BoxDecoration(
-          color: primaryColor,
+      decoration: BoxDecoration(
+          color: backInput,
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           )),
@@ -115,8 +111,9 @@ class _LoadingPageState extends State<LoadingPage> {
       //FALTA COLOR
       //widthPhone=450
       //widthDeskot=1000,
-      height: 270,
-      width: 350,
+      padding: EdgeInsets.all(40),
+      height: 350,
+      width: 500,
 
       child: Wrap(
           alignment: WrapAlignment.center,
@@ -130,24 +127,29 @@ class _LoadingPageState extends State<LoadingPage> {
               placeholder: 'usuario',
               controller: _userController,
               prefixIcon: customIcons(IconUser),
+              isRed: false,
             ),
 
             TextIputUI(
               placeholder: 'correo',
               controller: _emailController,
               prefixIcon: customIcons(IconEmail),
+              isRed: false,
             ),
 
             TextIputUI(
               placeholder: 'celular',
               controller: _numberPhoneController,
               prefixIcon: customIcons(IconPhone),
+              isRed: false,
             ),
 
             TextIputUI(
               placeholder: 'contraseña',
               controller: _passwordController,
               prefixIcon: customIcons(IconLock),
+              isRed: false,
+            
             ),
           ]),
     );

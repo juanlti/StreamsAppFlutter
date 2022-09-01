@@ -23,21 +23,23 @@ class _LoginPageState extends State<LoginPage> {
     final _password = TextEditingController();
     //SingleChildScrollView
     return Center(
-        child: Center(
-      child: Form(
-        //README ALL DATA FOR TO CHANGE
-        key: formLogin,
+        child: Form(
+      //README ALL DATA FOR TO CHANGE
+      key: formLogin,
 
-        child: Column(
-          children: [
-            const Padding(padding: EdgeInsets.only(top: 60)),
-            InputField(widthInpuField, _email, _password),
-            helpPassword(),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Padding(padding: EdgeInsets.only(top: 60)),
+          InputField(widthInpuField, _email, _password),
+          helpPassword(),
+          SizedBox(
+            height: 50,
+          ),
+          Container(
+            width: widthInpuField,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // datos de email y password ya controlados,luego se confirma en el backUp
                 buttomUi(
@@ -49,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                         _password.toString();
                         //Navigator.pushReplacementNamed(context, '/app/3');
                         //context.go('/app/${1}');
-                        context.go('/app/${'0'}');
+                        context.go('/app/${'HomePage'}');
 
                         print(
                             'paso previo a query ${formLogin.currentState?.validate()}');
@@ -69,8 +71,8 @@ class _LoginPageState extends State<LoginPage> {
                     typeLabel: 'Registrar'),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ));
   }
@@ -94,16 +96,10 @@ class _LoginPageState extends State<LoginPage> {
   Container InputField(widthInpuField, TextEditingController _email,
       TextEditingController _password) {
     return Container(
-      decoration: const BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          )),
-
-      //FALTA COLOR
-      height: 190,
-      width: widthInpuField,
-
+      padding: EdgeInsets.all(50),
+      height: 300,
+      width: 450,
+      color: backInput,
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         // unSizeBox('Usuario'),
@@ -118,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextIputUI InputPassword(TextEditingController passwordController) {
     return TextIputUI(
+      isRed: false,
       placeholder: 'xxxxxx',
       controller: passwordController,
       password: true,
@@ -133,6 +130,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextIputUI InputEmail(TextEditingController emailController) {
     return TextIputUI(
+      isRed: false,
       placeholder: 'ejemplo@gmail.com',
       controller: emailController,
       onValidate: (value) {

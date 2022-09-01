@@ -17,6 +17,7 @@ class AuthProvider extends ChangeNotifier {
 
   AuthProvider() {
     isAuthenticated();
+    
   }
 
   login({required String email, required String password}) async {

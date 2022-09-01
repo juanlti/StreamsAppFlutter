@@ -10,7 +10,7 @@ import 'routes/router.dart';
 //final internetChecker = CheckInternetConnection();
 
 void main() async {
-  print(3434);
+  
   await LocalStorage.configurePrefs();
   CafeApi.configureDio();
   runApp(MyApp());

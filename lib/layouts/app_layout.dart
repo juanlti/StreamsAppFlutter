@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:up_movi_devep/config/constants.dart';
 import 'package:up_movi_devep/config/responsive.dart';
+import 'package:up_movi_devep/pages/app/movies/movie_provider.dart';
 import 'package:up_movi_devep/pages/app/movies/movies_page.dart';
-import 'package:up_movi_devep/pages/home_page.dart';
 
+import 'package:up_movi_devep/pages/home_page.dart';
+import 'package:up_movi_devep/ui/custom_Page_data.dart';
 import 'package:up_movi_devep/ui/custom_navigator_bar.dart';
 
+import 'package:up_movi_devep/ui/logo.dart';
+import 'package:up_movi_devep/ui/playView.dart';
+
 class AppView extends StatefulWidget {
-  const AppView({required this.selectContenido, Key? key, required this.index})
+  const AppView({required this.selectContenido, Key? key, required this.index, required PlayView child})
       : super(key: key);
 
   final Contenido selectContenido;
@@ -39,61 +46,140 @@ class _AppViewState extends State<AppView> with AutomaticKeepAliveClientMixin {
     super.build(context);
     return Scaffold(
       backgroundColor: backGround,
-      appBar: Tab(
-        text: ('donde estoy ? ${widget.selectContenido.name}'),
-      ),
-      body: Stack(
-        children: [
-          Container(
-              constraints: const BoxConstraints.expand(),
+      drawer: testMenuLateral(false),
+
+      ///testMenuLateral(false): null,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: [
+            Expanded(
               child: Row(children: [
-                if (isDesktop || isTablet)
-                  //tablet o computadora
-
-                  Container(
-                    width: 200,
-                    height: 500,
-                    child: Text('ESTOY EN PC O TABLET'),
+                //tablet o computadora
+                if (isTablet || isDesktop)
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(width: 100, child: testMenuLateral(false)),
                   ),
-              ])),
+                Expanded(
+                  flex: 12,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Logo(200),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: pageContents(),
+                      ),
+                      SizedBox(
+                        height: 16,
+                        width: 30,
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                    onPressed: () {}, child: Text('Genero')),
+                                TextButton(
+                                    onPressed: () {},
+                                    child: Text('Ultimas vistas')),
+                                TextButton(
+                                    onPressed: () {}, child: Text('Favoritos')),
+                                TextButton(
+                                    onPressed: () {}, child: Text('Popular')),
+                              ],
+                            ),
+                          )),
+                      Expanded(
+                          flex: 12,
+                          child: SingleChildScrollView(
+                            child: widget.selectContenido.unWiget,
+                          )),
+                      SizedBox(
+                        height: 10,
+                      )
+                    ],
+                  ),
+                ),
 
-          //row o column para varios componentes, caso contrario ninguno
+                //row o column para varios componentes, caso contrario ninguno
 
-          //fin si
+                //fin si
 
-          //Pagina contenido compartido (row, column, etc, menos scallfold)
-          Container(child: widget.selectContenido.unWiget),
-          if (isMobile)
-            //telefono
-            Container(
-              //row o column para varios componentes, caso contrario ninguno
-              width: 300,
-              height: 300,
-              child: Text('ESTOY EN CELULAR'),
+                //Pagina contenido compartido (row, column, etc, menos scallfold)
+                // Container(child: widget.selectContenido.unWiget),
+
+                //row o column para varios componentes, caso contrario ninguno
+              ]),
             ),
-        ],
-      ),
-      bottomNavigationBar: CustomNavigationBar(
-        initialIndex: indexPage,
-        items: [
-          customIcons(IconDownHome),
-          customIcons(IconDownMovie),
-          customIcons(IconDownSeries),
-          customIcons(IconDownFragme),
-          customIcons(IconDownUser),
-        ],
-        onTabChanged: (int value) {
-          setState(() {
-            print('pagina => $value');
-            _tap(context, value);
-          });
-        },
+            if (isMobile)
+              Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: testMenuLateral(isMobile))
+          ],
+        ),
       ),
     );
   }
 
+  Drawer testMenuLateral(bool isMobile) => Drawer(
+      backgroundColor: Colors.red,
+      child: buttonNavigationAndDrawer(
+        isMobil: isMobile,
+        avatar: avatar(),
+      ));
+
   void _tap(BuildContext context, int index) =>
       context.go('/app/${All.data[index].id}');
+}
+
+class buttonNavigationAndDrawer extends StatelessWidget {
+  const buttonNavigationAndDrawer({
+    Key? key,
+    required this.isMobil,
+    required this.avatar,
+  }) : super(key: key);
+  final bool isMobil;
+  final Padding avatar;
+  @override
+  Widget build(BuildContext context) {
+    //final movieProvider =Provider.of<MovieProvider>(context, listen: false).movie;
+    return CustomNavigationBar(
+      onTabChanged: (int value) {
+        print('cual botton ? $value');
+        switch (value) {
+          case 0:
+            return context.go('/app/${'Home'}');
+          case 1:
+            return context.go('/app/${'Movie'}');
+          case 2:
+            return context.go('/app/${'Serie'}');
+          case 3:
+            return context.go('/app/${'TvOnline'}');
+          case 4:
+            return context.go('/app/${'Perfil'}');
+          default:
+            return context.go('/app/${'HomePage'}');
+        }
+      },
+      items: [
+        customIcons(IconDownHome),
+        customIcons(IconDownMovie),
+        customIcons(IconDownSeries),
+        customIcons(IconDownFragme),
+        customIcons(IconDownUser),
+        customIcons(IconArrowOut),
+      ],
+      isMobil: isMobil,
+    );
+  }
 }
 
 class Contenido {
@@ -101,40 +187,59 @@ class Contenido {
     required this.id,
     required this.name,
     required this.unWiget,
+    this.aVideo,
   });
 
   final String id;
   final String name;
   final Widget unWiget;
+  final List<Video>? aVideo;
+
+  Video unVideo(int ide) => aVideo!.singleWhere(
+        (element) => element.id == ide,
+        orElse: () => throw Exception('unknown person $ide for family $id'),
+      );
 }
 
 class All {
   static final data = [
     Contenido(
-      id: '0',
+      id: 'Home',
       name: 'HomePage',
-      unWiget: HomePage(),
+      unWiget: PlayView(),
     ),
     Contenido(
-      id: '1',
+      
+      id: 'Movie',
       name: 'Peliculas',
-      unWiget: MoviesPage(),
+      unWiget: MoviesPage(id: 88,),
+      aVideo: [
+        Video(id: '88', name: 'Gladiador'),
+        Video(id: '89', name: 'Batman'),
+        Video(id: '90', name: 'RapidoYfurioso10'),
+        Video(id: '91', name: 'Titanic'),
+      ],
       //unWiget: PageMovies(),
     ),
     Contenido(
-      id: '2',
+      id: 'Serie',
       name: 'Series',
-      unWiget: MoviesPage(),
+      unWiget: PlayView(
+        categories: 'UnaCategoria',
+        resenia: 'informacion',
+        title: 'unTitulo',
+        subTitle: 'unSubtitulo',
+      ),
     ),
     Contenido(
-      id: '3',
+      id: 'TvOnline',
       name: 'TvOnline',
       unWiget: MoviesPage(),
     ),
     Contenido(
-      id: '4',
+      id: 'Perfil',
       name: 'Perfil',
-      unWiget: MoviesPage(),
+      unWiget: CustomPageData(), //PerfilPage(),
     ),
   ];
   static Contenido unContenido(String fid) {
@@ -151,10 +256,10 @@ extension on List<Contenido> {
 }
 
 pageContents() {
-  Container(
+  return Container(
     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-    height: 50,
-    width: 350,
+    height: 10,
+    width: 300,
     decoration: BoxDecoration(
       color: Colors.grey,
       borderRadius: BorderRadius.circular(20),
@@ -166,6 +271,36 @@ pageContents() {
         prefixIcon: customIcons(IconSearch),
         suffixIcon: customIcons(IconMicrophone),
       ),
+    ),
+  );
+}
+
+class Video {
+  Video({required this.id, required this.name});
+
+  final String id;
+  final String name;
+
+  Widget? unTest;
+}
+
+Padding avatar() {
+  return Padding(
+    padding: const EdgeInsets.only(top: 40, bottom: 20, left: 10, right: 10),
+    child: Wrap(
+      spacing: 10,
+      alignment: WrapAlignment.center,
+      direction: Axis.vertical,
+      children: [
+        CircleAvatar(
+          child: T(IconAvatar),
+        ),
+        Text('UnUser'),
+        Divider(
+          color: Colors.black,
+          thickness: 2,
+        )
+      ],
     ),
   );
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:up_movi_devep/config/constants.dart';
 
 import 'package:up_movi_devep/pages/login/login_page.dart';
+import 'package:up_movi_devep/ui/background_page.dart';
 
 import 'package:up_movi_devep/ui/logo.dart';
 
@@ -12,27 +13,21 @@ class GuestLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: Container(
-            height: 100,
-            child: Logo(300),
-            color: Colors.red,
-          ),
-        ),
         backgroundColor: backGround,
-        body: LimitedBox(
-          child: Row(
-            // crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              //Ingreso
-
-              Logo(200),
-
-              LoginPage(),
-
-              //Registro
-              //LoadingPage()
-            ],
+        body: SafeArea(
+          minimum: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: SingleChildScrollView(
+            child: Stack(children: [
+              Positioned(width: 300, top: 300, child: Background()),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Logo(200),
+                  child
+                  //LoginPage(),
+                ],
+              ),
+            ]),
           ),
         ));
   }

@@ -39,23 +39,34 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SplasScreen(),
     ),
     GoRoute(
-      path:
-          '/app/:tab', //Home, Series, TvOnline, Movie. //playView (comun)/idPelicula
+      path: '/app/:tab',
       builder: (context, state) => AppView(
         key: state.pageKey,
+   
         selectContenido: All.unContenido(state.params['tab']!),
         index: 'tab',
       ),
-
+      
+          
+      /*
       routes: [
         GoRoute(
-          path: '/88',
-          builder: (context, state) => MoviesPage(id: 88),
+          path: '/app/Movie/Movie_Slider',
+          builder: (context, state) => PlayView(
+            categories: '',
+            subTitle: '',
+            title: '',
+            resenia: '',
+            id: 10,
+          ),
         ),
       ],
     ),
+    
+  
+  */
+    ),
   ],
-
   /*
   redirect: (state) {
     final loggedIn = authProvider.authStatus;

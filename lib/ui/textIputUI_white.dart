@@ -12,6 +12,7 @@ class TextIputUI extends StatelessWidget {
     this.password,
     this.prefixIcon,
     this.suffixIcon,
+     this.isRed, 
   }) : super(key: key);
 
   final String placeholder;
@@ -20,23 +21,37 @@ class TextIputUI extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final Function? onChange;
-
+  final bool? isRed;
   final Function? onValidate;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          color: Colors.white,
+      decoration:isRed!? BoxDecoration(
+          border: Border.all(
+            color: primaryColor,
+            width: 2.0,
+          ),
+          gradient:const LinearGradient(colors: [
+            Color(0xffD50055),
+            Color(0xff131031),
+          ]),
+          borderRadius:const BorderRadius.all(
+            Radius.circular(5),
+          )): const BoxDecoration(
+          color:Colors.white,
+          //cambiar por color degrade
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           )),
       width: 300,
       child: TextFormField(
+    
         style: TextStyle(fontSize: 20),
         autofocus: true,
         textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
+      
           prefixIcon: prefixIcon,
           filled: true,
           hintText: placeholder,

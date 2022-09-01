@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:up_movi_devep/config/constants.dart';
 import 'package:up_movi_devep/ui/singMovieUi.dart';
 
-SizedBox Movie_Slider(String categories) {
-  return SizedBox(
-    width: 100,
-    height: 230,
+Container Movie_Slider(BuildContext context, String categories) {
+  return Container(
+    width: double.infinity,
+    color: backGround,
+    height: 250,
+
     //color: Colors.blueGrey,
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
@@ -20,7 +22,9 @@ SizedBox Movie_Slider(String categories) {
             scrollDirection: Axis.horizontal,
             itemCount: 30,
             itemBuilder: ((_, index) {
-              return singMovieUi();
+              return 
+              
+              singMovieUi(context, 'Transformers ${index}', index);
             })),
       ),
     ]),

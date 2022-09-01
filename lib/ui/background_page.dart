@@ -12,34 +12,39 @@ class Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        //color azul del background
-        Container(decoration: boxDecoration),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            //color azul del background
+            Container(decoration: boxDecoration),
 
-        Positioned(
-          top: -72,
-          left: -81,
-          child: _PinkBoxCircul(),
+            Positioned(
+              top: -72,
+              left: -81,
+              child: _PinkBoxCircul(),
+            ),
+
+            Positioned(
+              top: 219,
+              left: 239,
+              child: Transform.rotate(
+                angle: -pi / 10.0,
+                child: ClipOval(child: _PinkBox()),
+              ),
+            ),
+
+            Positioned(
+              top: 559,
+              left: -207,
+              child: Transform.rotate(
+                angle: pi / 10.0,
+                child: ClipOval(child: _PinkBox2()),
+              ),
+            )
+          ],
         ),
-
-        Positioned(
-          top: 219,
-          left: 239,
-          child: Transform.rotate(
-            angle: -pi / 10.0,
-            child: ClipOval(child: _PinkBox()),
-          ),
-        ),
-
-        Positioned(
-          top: 559,
-          left: -207,
-          child: Transform.rotate(
-            angle: pi / 10.0,
-            child: ClipOval(child: _PinkBox2()),
-          ),
-        )
       ],
     );
   }
